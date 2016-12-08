@@ -33,6 +33,10 @@ obj-$(CONFIG_CRYPTO_SPECK_NEON) += speck-neon.o
 speck-neon-y := speck-neon-core.o speck-neon-glue.o
 
 AFLAGS_aes-ce.o		:= -DINTERLEAVE=2 -DINTERLEAVE_INLINE
+
+obj-$(CONFIG_CRYPTO_CHACHA20_NEON) += chacha20-neon.o
+chacha20-neon-y := chacha20-neon-core.o chacha20-neon-glue.o
+
 AFLAGS_aes-neon.o	:= -DINTERLEAVE=4
 
 CFLAGS_aes-glue-ce.o	:= -DUSE_V8_CRYPTO_EXTENSIONS
