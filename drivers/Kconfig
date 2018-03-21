@@ -1,5 +1,11 @@
 menu "Device Drivers"
 
+config D1_ROSY
+	bool "rosy device drivers"
+	default n
+	help
+	  Say Y here to enable rosy specific device drivers
+
 source "drivers/base/Kconfig"
 
 source "drivers/bus/Kconfig"
