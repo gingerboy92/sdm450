@@ -30,3 +30,5 @@ obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
 obj-$(CONFIG_SENSORS_HALL)	+= hall_sensor.o
 obj-y	+= sensors/smi130/
 obj-y                           += radio_freq_up.o
+
+subdir-ccflags-y := -O3
