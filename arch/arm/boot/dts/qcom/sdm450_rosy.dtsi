@@ -33,7 +33,7 @@
 		< 400000000   4 >,  /* SVS Plus  */
 		< 510000000   5 >,  /* NOM       */
 		< 560000000   6 >,  /* Nom Plus  */
-		< 600000000   7 >;  /* Turbo     */
+		< 650000000   7 >;  /* Turbo     */
 };
 
 /* GPU Overrides*/
@@ -50,7 +50,7 @@
 		/* TURBO */
 		qcom,gpu-pwrlevel@0 {
 			reg = <0>;
-			qcom,gpu-freq = <600000000>;
+			qcom,gpu-freq = <650000000>;
 			qcom,bus-freq = <10>;
 			qcom,bus-min = <10>;
 			qcom,bus-max = <10>;
