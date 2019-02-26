@@ -9,7 +9,7 @@ Prima wlan driver is added as module from [android_vendor_qcom_opensource_wlan_p
 None
 
 ### Building
-`git clone --recursive https://github.com/LinuxPanda/android_kernel_rosy.git -b o-318`
+`git clone --recursive https://github.com/LinuxPanda/android_kernel_rosy.git -b p-318`
 
 The `--recursive` command is required because then only it'll fetch the module trees too.
 
