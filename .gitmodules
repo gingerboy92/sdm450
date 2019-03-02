@@ -2,3 +2,6 @@
 	path = drivers/staging/prima
 	url = https://github.com/khusika/android_vendor_qcom_opensource_wlan_prima
 	branch = wlan-driver.lnx.1.0.r30-rel
+[submodule "fs/sdfat"]
+	path = fs/sdfat
+	url = https://github.com/cryptomilk/kernel-sdfat
