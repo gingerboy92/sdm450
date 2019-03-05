@@ -128,9 +128,9 @@ static struct wcd_mbhc_config mbhc_cfg = {
 	.swap_gnd_mic = NULL,
 	.hs_ext_micbias = false,
 	.key_code[0] = KEY_MEDIA,
-	.key_code[1] = KEY_PREVIOUSSONG_NEW,
-	.key_code[2] = KEY_NEXTSONG_NEW,
-	.key_code[3] = KEY_VOICECOMMAND,
+	.key_code[1] = KEY_VOICECOMMAND,
+	.key_code[2] = KEY_VOLUMEUP,
+	.key_code[3] = KEY_VOLUMEDOWN,
 	.key_code[4] = 0,
 	.key_code[5] = 0,
 	.key_code[6] = 0,
@@ -1729,18 +1729,16 @@ static void *def_msm8952_wcd_mbhc_cal(void)
 	 * 210-290 == Button 2
 	 * 360-680 == Button 3
 	 */
-
-		btn_low[0] = 25;
-		btn_high[0] = 75;
-		btn_low[1] = 200;
-		btn_high[1] = 225;
-		btn_low[2] = 325;
-		btn_high[2] = 450;
-		btn_low[3] = 500;
-		btn_high[3] = 510;
-		btn_low[4] = 530;
-		btn_high[4] = 540;
-
+	btn_low[0] = 75;
+	btn_high[0] = 75;
+	btn_low[1] = 150;
+	btn_high[1] = 150;
+	btn_low[2] = 225;
+	btn_high[2] = 225;
+	btn_low[3] = 450;
+	btn_high[3] = 450;
+	btn_low[4] = 500;
+	btn_high[4] = 500;
 
 	return msm8952_wcd_cal;
 }
