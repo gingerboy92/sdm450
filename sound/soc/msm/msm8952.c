@@ -49,26 +49,11 @@
 #define QUIN_MI2S_ID	(1 << 4)
 
 #define DEFAULT_MCLK_RATE 9600000
-#if defined(CONFIG_C3N_SMB358)
-#define AW8736_MODE 5
-#elif defined(CONFIG_C3B_BQ2560X)
-#define AW8736_MODE 3
-#else
-#define AW8738_MODE 5
-#endif
+
 #define WCD_MBHC_DEF_RLOADS 5
 #define MAX_WSA_CODEC_NAME_LENGTH 80
 #define MSM_DT_MAX_PROP_SIZE 80
 
-#define EXT_CLASS_D_EN_DELAY 13000
-#define EXT_CLASS_D_DIS_DELAY 3000
-#define EXT_CLASS_D_DELAY_DELTA 2000
-
-#if defined(CONFIG_C3N_SMB358) || defined(CONFIG_C3B_BQ2560X) || defined(CONFIG_D1_ROSY)
-#else
-#define A13_AW87319_SPK_PA  1
-#define A12_AW8738_SPK_PA  2
-#endif
 enum btsco_rates {
 	RATE_8KHZ_ID,
 	RATE_16KHZ_ID,
@@ -92,17 +77,6 @@ static atomic_t quat_mi2s_clk_ref;
 static atomic_t quin_mi2s_clk_ref;
 static atomic_t auxpcm_mi2s_clk_ref;
 
-static int headset_gpio;
-static int spk_pa_gpio;
-#if defined(CONFIG_C3N_SMB358) || defined(CONFIG_C3B_BQ2560X) || defined(CONFIG_D1_ROSY)
-#else
-static int Spk_Pa_Id;
-
-static struct delayed_work lineout_amp_enable;
-static struct delayed_work lineout_amp_dualmode;
-static struct delayed_work lineout_hs_sw_enable;
-#endif
-
 static int msm8952_enable_dig_cdc_clk(struct snd_soc_codec *codec, int enable,
 					bool dapm);
 static bool msm8952_swap_gnd_mic(struct snd_soc_codec *codec);
@@ -112,6 +86,9 @@ static int msm8952_wsa_switch_event(struct snd_soc_dapm_widget *w,
 			      struct snd_kcontrol *kcontrol, int event);
 
 #if defined (CONFIG_D1_ROSY)
+static int headset_gpio;
+static int spk_pa_gpio;
+
 extern unsigned char AW87319_Audio_Speaker(void);
 extern unsigned char AW87319_Audio_OFF(void);
 #endif
