@@ -493,7 +493,6 @@
 			qcom,sync-dly-us = <800>;
 			qcom,fs-curr-ua = <20000>;
 			qcom,en-phase-stag;
-			qcom,en-cabc;
 			qcom,led-strings-list = [00 01];
 			qcom,en-ext-pfet-sc-pro;
 			qcom,cons-sync-write-delay-us = <1000>;

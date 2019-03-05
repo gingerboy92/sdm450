@@ -1435,14 +1435,13 @@ static int mdss_fb_remove(struct platform_device *pdev)
 	if (!mfd)
 		return -ENODEV;
 
+	mdss_fb_remove_sysfs(mfd);
+
 	if (mfd->panel_info && mfd->panel_info->is_prim_panel) {
 		atomic_set(&prim_panel_is_on, false);
 		cancel_delayed_work_sync(&prim_panel_work);
 		wake_lock_destroy(&prim_panel_wakelock);
 	}
-
-	mdss_fb_remove_sysfs(mfd);
-
 	pm_runtime_disable(mfd->fbi->dev);
 
 	if (mfd->key != MFD_KEY)
@@ -1616,7 +1615,6 @@ static int mdss_fb_resume(struct platform_device *pdev)
 #endif
 
 #ifdef CONFIG_PM_SLEEP
-
 static int mdss_fb_pm_prepare(struct device *dev)
 {
 	struct msm_fb_data_type *mfd = dev_get_drvdata(dev);
@@ -1675,7 +1673,6 @@ static int mdss_fb_pm_resume(struct device *dev)
 #endif
 
 static const struct dev_pm_ops mdss_fb_pm_ops = {
-
 	.prepare = mdss_fb_pm_prepare,
 	.complete = mdss_fb_pm_complete,
 	SET_SYSTEM_SLEEP_PM_OPS(mdss_fb_pm_suspend, mdss_fb_pm_resume)
@@ -1932,7 +1929,7 @@ static int mdss_fb_blank_blank(struct msm_fb_data_type *mfd,
 	ret = mfd->mdp.off_fnc(mfd);
 	if (ret)
 		mfd->panel_power_state = cur_power_state;
-	else if (!mdss_panel_is_power_on_interactive(req_power_state))
+	else if (mdss_panel_is_power_off(req_power_state))
 		mdss_fb_release_fences(mfd);
 	mfd->op_enable = true;
 	complete(&mfd->power_off_comp);
@@ -2805,14 +2802,12 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	mdss_panel_debugfs_init(panel_info, panel_name);
 	pr_info("FrameBuffer[%d] %dx%d registered successfully!\n", mfd->index,
 					fbi->var.xres, fbi->var.yres);
-
 	if (panel_info->is_prim_panel) {
 		prim_fbi = fbi;
 		atomic_set(&prim_panel_is_on, false);
 		INIT_DELAYED_WORK(&prim_panel_work, prim_panel_off_delayed_work);
 		wake_lock_init(&prim_panel_wakelock, WAKE_LOCK_SUSPEND, "prim_panel_wakelock");
 	}
-
 
 	return 0;
 }
@@ -3227,7 +3222,6 @@ static int __mdss_fb_sync_buf_done_callback(struct notifier_block *p,
 static int mdss_fb_pan_idle(struct msm_fb_data_type *mfd)
 {
 	int ret = 0;
-	static int shutdown_pending_count;
 
 	ret = wait_event_timeout(mfd->idle_wait_q,
 			(!atomic_read(&mfd->commits_pending) ||
@@ -3241,14 +3235,8 @@ static int mdss_fb_pan_idle(struct msm_fb_data_type *mfd)
 			"dbg_bus", "vbif_dbg_bus");
 		ret = -ETIMEDOUT;
 	} else if (mfd->shutdown_pending) {
-		if (shutdown_pending_count++ < 10) {
-			pr_debug("Shutdown signalled\n");
-			ret = -ESHUTDOWN;
-		} else {
-			pr_debug("work around for shutdown fail\n");
-			shutdown_pending_count = 0;
-			ret = 0;
-		}
+		pr_debug("Shutdown signalled\n");
+		ret = -ESHUTDOWN;
 	} else {
 		ret = 0;
 	}
@@ -4921,10 +4909,6 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 	struct mdp_buf_sync buf_sync;
 	unsigned int dsi_mode = 0;
 	struct mdss_panel_data *pdata = NULL;
-	unsigned int Color_mode = 0;
-	unsigned int CE_mode = 0;
-	unsigned int Eye_mode = 0;
-	unsigned int CABC_mode = 0;
 
 	if (!info || !info->par)
 		return -EINVAL;
@@ -5003,36 +4987,6 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = mdss_fb_async_position_update_ioctl(info, argp);
 		break;
 
-	case MSMFB_ENHANCE_SET_GAMMA:
-		if (copy_from_user(&Color_mode, argp, sizeof(Color_mode))) {
-			pr_err("%s: MSMFB_ENHANCE_SET_GAMMA ioctl failed\n", __func__);
-			goto exit;
-		}
-		ret = mdss_panel_set_gamma(pdata, Color_mode);
-		break;
-
-	case MSMFB_ENHANCE_SET_CE:
-		if (copy_from_user(&CE_mode, argp, sizeof(CE_mode))) {
-			pr_err("%s: MSMFB_ENHANCE_SET_CE ioctl failed\n", __func__);
-			goto exit;
-		}
-		ret = mdss_panel_set_ce(pdata, CE_mode);
-		break;
-	case MSMFB_ENHANCE_SET_EYE:
-		if (copy_from_user(&Eye_mode, argp, sizeof(Eye_mode))) {
-			pr_err("%s: MSMFB_ENHANCE_SET_EYE ioctl failed\n", __func__);
-			goto exit;
-		}
-		ret = mdss_panel_set_dispparam(pdata, Eye_mode);
-		break;
-	case MSMFB_SET_CABC:
-		if (copy_from_user(&CABC_mode, argp, sizeof(CABC_mode))) {
-			pr_err("%s: MSMFB_SET_CABC ioctl failed\n", __func__);
-			goto exit;
-		}
-		ret = mdss_panel_set_cabc(pdata, CABC_mode);
-		pdata->panel_info.cabcmode = CABC_mode;
-		break;
 	default:
 		if (mfd->mdp.ioctl_handler)
 			ret = mfd->mdp.ioctl_handler(mfd, cmd, argp);

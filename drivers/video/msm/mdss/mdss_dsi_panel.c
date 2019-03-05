@@ -898,45 +898,9 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	pr_debug("%s: ndx=%d cmd_cnt=%d\n", __func__,
 				ctrl->ndx, on_cmds->cmd_cnt);
 
-
-	if (ctrl->eyemode == true && (!strcmp(Lcm_name, "nt35521s_HD720p_video_EBBG_c3a"))) {
-		if (on_cmds->cmd_cnt)
-			mdss_dsi_panel_cmds_send(ctrl, on_cmds, CMD_REQ_COMMIT);
-		if (ctrl->dispparam_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->dispparam_cmds, CMD_REQ_COMMIT);
-	} else{
-	if (ctrl->init_last) {
-		if (ctrl->eyemode == true) {
-			if (ctrl->dispparam_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->dispparam_cmds, CMD_REQ_COMMIT);
-		} else{
-			if (ctrl->gamma_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->gamma_cmds, CMD_REQ_COMMIT);
-			if (ctrl->ce_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->ce_cmds, CMD_REQ_COMMIT);
-			}
-	}
-
 	if (on_cmds->cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, on_cmds, CMD_REQ_COMMIT);
 
-	if (pinfo->cabcmode) {
-		if (ctrl->cabc_on_cmds.cmd_cnt)
-			mdss_dsi_panel_cmds_send(ctrl, &ctrl->cabc_on_cmds, CMD_REQ_COMMIT);
-	}
-
-	if (!ctrl->init_last) {
-		if (ctrl->eyemode == true) {
-			if (ctrl->dispparam_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->dispparam_cmds, CMD_REQ_COMMIT);
-		} else{
-			if (ctrl->gamma_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->gamma_cmds, CMD_REQ_COMMIT);
-			if (ctrl->ce_cmds.cmd_cnt)
-				mdss_dsi_panel_cmds_send(ctrl, &ctrl->ce_cmds, CMD_REQ_COMMIT);
-			}
-	}
-	}
 	if (pinfo->compression_mode == COMPRESSION_DSC)
 		mdss_dsi_panel_dsc_pps_send(ctrl, pinfo);
 
@@ -1077,97 +1041,6 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 		mdss_dsi_panel_set_idle_mode(pdata, true);
 	else
 		mdss_dsi_panel_set_idle_mode(pdata, false);
-	pr_debug("%s:-\n", __func__);
-	return 0;
-}
-
-int mdss_dsi_panel_gamma(struct mdss_panel_data *pdata)
-{
-	struct mipi_panel_info *mipi;
-	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return -EINVAL;
-	}
-
-	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
-				panel_data);
-	mipi  = &pdata->panel_info.mipi;
-
-	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
-
-	if (ctrl->gamma_cmds.cmd_cnt)
-		mdss_dsi_panel_cmds_send(ctrl, &ctrl->gamma_cmds, CMD_REQ_COMMIT);
-
-	pr_debug("%s:-\n", __func__);
-	return 0;
-}
-int mdss_dsi_panel_ce(struct mdss_panel_data *pdata)
-{
-	struct mipi_panel_info *mipi;
-	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return -EINVAL;
-	}
-
-	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
-				panel_data);
-	mipi  = &pdata->panel_info.mipi;
-
-	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
-
-	if (ctrl->ce_cmds.cmd_cnt)
-		mdss_dsi_panel_cmds_send(ctrl, &ctrl->ce_cmds, CMD_REQ_COMMIT);
-
-	pr_debug("%s:-\n", __func__);
-	return 0;
-}
-
-int mdss_dsi_panel_dispparam(struct mdss_panel_data *pdata)
-{
-	struct mipi_panel_info *mipi;
-	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return -EINVAL;
-	}
-
-	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
-				panel_data);
-	mipi  = &pdata->panel_info.mipi;
-
-	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
-
-	if (ctrl->dispparam_cmds.cmd_cnt)
-		mdss_dsi_panel_cmds_send(ctrl, &ctrl->dispparam_cmds, CMD_REQ_COMMIT);
-
-	pr_debug("%s:-\n", __func__);
-	return 0;
-}
-
-int mdss_dsi_panel_cabc(struct mdss_panel_data *pdata)
-{
-	struct mipi_panel_info *mipi;
-	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return -EINVAL;
-	}
-
-	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
-				panel_data);
-	mipi  = &pdata->panel_info.mipi;
-
-	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
-
-	if (ctrl->cabc_cmds.cmd_cnt)
-		mdss_dsi_panel_cmds_send(ctrl, &ctrl->cabc_cmds, CMD_REQ_COMMIT);
-
 	pr_debug("%s:-\n", __func__);
 	return 0;
 }
@@ -2734,21 +2607,6 @@ static int mdss_panel_parse_dt_hdmi(struct device_node *np,
 	return 0;
 }
 #endif
-
-void mdss_dsi_parse_eye_command(struct device_node *np, struct mdss_dsi_ctrl_pdata *ctrl_pdata)
-{
-	int i = 0;
-	char cmd_key[] = "qcom,mdss-dsi-panel-eye-command01";
-	int cmd_len = strlen(cmd_key);
-	for (i = 1; i <= ctrl_pdata->eye_cmds_num; i++) {
-		cmd_key[cmd_len-1] = i%10 + '0';
-		cmd_key[cmd_len-2] = i/10 + '0';
-
-		mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->eye_cmds[i-1],
-			cmd_key, "qcom,mdss-dsi-panel-gamma-command-state");
-	}
-}
-
 static int mdss_panel_parse_dt(struct device_node *np,
 			struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
@@ -2976,37 +2834,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-idle-fps", &tmp);
 	pinfo->mipi.frame_rate_idle = (!rc ? tmp : 60);
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->warm_cmds,
-		"qcom,mdss-dsi-panel-warm-command", "qcom,mdss-dsi-panel-gamma-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->cool_cmds,
-		"qcom,mdss-dsi-panel-cool-command", "qcom,mdss-dsi-panel-gamma-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->nature_cmds,
-		"qcom,mdss-dsi-panel-nature-command", "qcom,mdss-dsi-panel-gamma-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->standard_cmds,
-		"qcom,mdss-dsi-panel-ce-std-command", "qcom,mdss-dsi-panel-ce-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->vivid_cmds,
-		"qcom,mdss-dsi-panel-ce-vivid-command", "qcom,mdss-dsi-panel-ce-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->bright_cmds,
-			"qcom,mdss-dsi-panel-ce-bright-command", "qcom,mdss-dsi-panel-ce-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->cabc_on_cmds,
-			"qcom,mdss-dsi-panel-cabc-on-command", "qcom,mdss-dsi-panel-cabc-command-state");
-
-	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->cabc_off_cmds,
-			"qcom,mdss-dsi-panel-cabc-off-command", "qcom,mdss-dsi-panel-cabc-command-state");
-
-	rc = of_property_read_u32(np, "qcom,mdss-dsi-panel-eye-command-num", &tmp);
-	ctrl_pdata->eye_cmds_num = (!rc ? tmp : 0);
-
-	mdss_dsi_parse_eye_command(np, ctrl_pdata);
-
-	ctrl_pdata->init_last = of_property_read_bool(np, "qcom, mdss-dsi-init-last");
 
 	rc = of_property_read_u32(np, "qcom,adjust-timer-wakeup-ms", &tmp);
 	pinfo->adjust_timer_delay_ms = (!rc ? tmp : 0);
