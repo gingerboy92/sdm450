@@ -663,6 +663,8 @@ CONFIG_NLS_UTF8=y
 # Filesystem F2FS
 CONFIG_F2FS_FS=y
 CONFIG_F2FS_FS_SECURITY=y
+
+# Filesystem NTFS
 CONFIG_NTFS_FS=y
 
 # Filesystem sdFAT
