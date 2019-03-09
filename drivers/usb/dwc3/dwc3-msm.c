@@ -52,8 +52,12 @@
 #include "debug.h"
 #include "xhci.h"
 
+#if defined(CONFIG_D1_ROSY)
+#define DWC3_IDEV_CHG_MAX 2200
+#else
 #define DWC3_IDEV_CHG_MAX 1500
-#define DWC3_HVDCP_CHG_MAX 1800
+#endif
+#define DWC3_HVDCP_CHG_MAX 2200
 #define DWC3_WAKEUP_SRC_TIMEOUT 5000
 
 #define MICRO_5V    5000000

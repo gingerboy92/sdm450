@@ -85,8 +85,8 @@
 #define MICRO_9V 9000000
 
 #define SDP_CURRENT_UA 500000
-#define CDP_CURRENT_UA 1500000
-#define DCP_CURRENT_UA 1500000
+#define CDP_CURRENT_UA 2200000
+#define DCP_CURRENT_UA 2200000
 #define HVDCP_CURRENT_UA 3000000
 
 enum msm_otg_phy_reg_mode {
