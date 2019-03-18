@@ -411,6 +411,9 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 # Device specific optimization flags
 KBUILD_CLFAGS += march=armv8-a -mcpu=cortex-a53+crc+crypto
 
+# GCC graphite optimization flags
+KBUILD_CLFAGS += -floop-nest-optimize -fgraphite-identity -ftree-loop-distribution
+
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
