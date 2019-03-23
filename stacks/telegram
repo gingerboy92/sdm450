@@ -11,8 +11,8 @@
 TELEGRAM=$KERNEL_DIR/telegram
 
 # Caster configurations
-MAINGROUP_ID="-1001242182605"
-BUILDSCAPERER_ID="-1001242182605"
+MAINGROUP_ID="-1001124797505"
+BUILDSCAPERER_ID="-1395793012"
 DEBUG_ID="-1001242182605"
 
 # Graphics Interchange Format Assets
@@ -89,6 +89,7 @@ tg_debugcast() {
 kickstart_pub() {
 
     tg_channelcast "<b>Making New public build</b>" \
+    " " \
     "<b>Device:</b><i>Rosy</i>" \
     "<b>Branch:</b> <code>Pie</code>" \
     " " \
