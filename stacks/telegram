@@ -108,7 +108,7 @@ kickstart_priv() {
     " " \
     "Under <code>$(hostname)</code>" \
     " " \
-    "Commit Point <code>${COMMIT_POINT}</code>" 
+    "Commit Point <code>${COMMIT_POINT}</code>" \
 
     tg_debugcast "This ${COMPILER_USED} build will not producing any binaries" \
                 "This is internal build"
