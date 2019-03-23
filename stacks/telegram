@@ -97,7 +97,7 @@ kickstart_pub() {
     "<b>Under:</b> <code>Codeship-server</code>" \
     " " \
     "<b>Repository:</b> https://github.com/shreejoy/Nano_rosy" 
-
+}
 kickstart_priv() {
 
     tg_channelcast "Making New private Build" \
