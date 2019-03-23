@@ -1339,6 +1339,7 @@ static struct clk_freq_tbl ftbl_crypto_clk_src[] = {
 	F(  80000000,           gpll0,   10,    0,     0),
 	F( 100000000,           gpll0,    8,    0,     0),
 	F( 160000000,           gpll0,    5,    0,     0),
+	F( 270000000,           gpll6,    4,    0,     0),
 	F_END
 };
 
@@ -1352,7 +1353,7 @@ static struct rcg_clk crypto_clk_src = {
 		.dbg_name = "crypto_clk_src",
 		.ops = &clk_ops_rcg,
 		VDD_DIG_FMAX_MAP3(LOW_SVS, 40000000, SVS, 80000000, NOM,
-				160000000),
+				270000000),
 		CLK_INIT(crypto_clk_src.c),
 	},
 };
