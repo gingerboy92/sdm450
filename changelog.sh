@@ -1,16 +1,16 @@
 #!/usr/bin/env sh
+MERGE_PREFIX="Merge pull request"
 
-if [ ! -z "$CI_COMMIT_TAG" ]; then
-    COMMIT_RANGE="$(git describe --abbrev=0 --tags $CI_COMMIT_ID^)..$CI_COMMIT_BEFORE_SHA"
-else
-    COMMIT_RANGE="$CI_COMMIT_BEFORE_SHA..$CI_COMMIT_ID"
-fi
+if [ ! -z "$TRAVIS_TAG" ]
+then
+    TRAVIS_COMMIT_RANGE="$(git describe --abbrev=0 --tags $TRAVIS_TAG^)..$TRAVIS_TAG"
+ fi 
 
-GIT_COMMIT_LOG="$(git log --format='%s (by %cn)' $COMMIT_RANGE)"
+GIT_COMMIT_LOG="$(git log --format='%s (by %cn)' $TRAVIS_COMMIT_RANGE)" 
 
-echo " <b>Changelog for new Update!</b>${NEWLINE}"
+echo " <b>Changelog for Nano build!</b>${NEWLINE}" 
 
 printf '%s\n' "$GIT_COMMIT_LOG" | while IFS= read -r line
-do
-  echo "- ${line}"
+ do
+  echo "- ${line}" 
 done
