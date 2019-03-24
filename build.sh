@@ -7,6 +7,8 @@
 #
 # Kernel building script.
 
+sudo chmod -R 777 scripts/fetch-latest-wireguard.sh
+
 KERNEL_DIR=`pwd`
 function colors {
 	blue='\033[0;34m' cyan='\033[0;36m'
