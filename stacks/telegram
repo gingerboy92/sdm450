@@ -70,7 +70,7 @@ push() {
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
     -c ${MAINGROUP_ID} -t $BOT_API_KEY
-} I 
+}
 
 
 # sendcast to group
