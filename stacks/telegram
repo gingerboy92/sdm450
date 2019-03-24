@@ -62,16 +62,16 @@ tg_changelogs() {
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
     -c ${BUILDSCAPERER_ID} -t $BOT_API_KEY
-    tg_changelogs
     tg_build_sendsticker
 }
+
 
 # Push to Group
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
     -c ${MAINGROUP_ID} -t $BOT_API_KEY
-    tg_sendchanges
-}
+} I 
+
 
 # sendcast to group
 tg_sendinfo() {
