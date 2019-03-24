@@ -46,10 +46,16 @@ tg_intgifmain() {
     -d chat_id=${MAINGROUP_ID} >> /dev/ -t null
 }
 
-# Push to Channel
+# Push to Group
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
     -c ${BUILDSCAPERER_ID} -t $BOT_API_KEY
+}
+
+# Push to Channel
+push() {
+    "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
+    -c ${MAINGROUP_ID} -t $BOT_API_KEY
     tg_build_sendsticker
 }
 
@@ -90,14 +96,14 @@ kickstart_pub() {
 
     tg_sendinfo "<b>Making New public build</b>" \
     " " \
-    "<b>Device:</b><i>Rosy</i>" \
+    "<b>Device:</b> <i>Rosy</i>" \
     "<b>Branch:</b> <code>Pie</code>" \
     " " \
-    "Started on <code>Nano-CI</code>" \
+    "<b>Started on</b> <code>Nano-CI</code>" \
     " " \
     "<b>Under:</b> <code>Codeship-server</code>" \
     " " \
-    "<b>Repository:</b> https://github.com/shreejoy/Nano_rosy" 
+    "<b>Repository:</b> https://github.com/shreejoy/Nano_rosy"
 }
 kickstart_priv() {
 
