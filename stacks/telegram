@@ -65,7 +65,6 @@ push() {
     tg_build_sendsticker
 }
 
-
 # Push to Group
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
