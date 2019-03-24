@@ -9,6 +9,7 @@ then
 GIT_COMMIT_LOG="$(git log --format='%s (by %cn)' $TRAVIS_COMMIT_RANGE)" 
 
 echo " <b>Changelog for Nano build!</b>${NEWLINE}" 
+echo " "
 
 printf '%s\n' "$GIT_COMMIT_LOG" | while IFS= read -r line
  do
