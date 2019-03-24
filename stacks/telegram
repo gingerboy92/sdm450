@@ -88,7 +88,7 @@ tg_debugcast() {
 
 kickstart_pub() {
 
-    tg_channelcast "<b>Making New public build</b>" \
+    tg_sendinfo "<b>Making New public build</b>" \
     " " \
     "<b>Device:</b><i>Rosy</i>" \
     "<b>Branch:</b> <code>Pie</code>" \
@@ -101,7 +101,7 @@ kickstart_pub() {
 }
 kickstart_priv() {
 
-    tg_channelcast "Making New private Build" \
+    tg_debugcast "Making New private Build" \
     "<b>Device:</b> Rosy" \
     "<b>Branch:</b> <code>${PARSE_BRANCH}</code>" \
     " " \
