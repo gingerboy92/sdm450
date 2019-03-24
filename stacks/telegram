@@ -19,7 +19,7 @@ DEBUG_ID="-1001242182605"
 Start_Asset="CAADBQADBgADcHz3IpDKOqKNQ1ReAg"
 Stop_Asset="https://i.imgur.com/Q6nllGX.gif"
 Jump_Asset="https://media.giphy.com/media/l41lI4bYmcsPJX9Go/giphy.gif"
-
+see_change="sh ./changelog.sh"
 # GIF Stuff
 tg_build_sendsticker() {
     curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/SendSticker" \
@@ -48,29 +48,29 @@ tg_intgifmain() {
 
 tg_sendchanges() {
     curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
-    -F text="$(./changelog.sh)" \
+    -F text="$(see_change)" \
     -d chat_id=${MAINGROUP_ID} >> /dev/ -t null
 }
 
 tg_changelogs() {
     curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
-    -F text="$(./changelog.sh)" \
+    -F text="$(see_change)" \
     -d chat_id=${BUILDSCAPERER_ID} >> /dev/ -t null
-}
-
-# Push to Group
-push() {
-    "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
-    -c ${BUILDSCAPERER_ID} -t $BOT_API_KEY
-    tg_sendchanges
 }
 
 # Push to Channel
 push() {
     "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
-    -c ${MAINGROUP_ID} -t $BOT_API_KEY
+    -c ${BUILDSCAPERER_ID} -t $BOT_API_KEY
     tg_changelogs
     tg_build_sendsticker
+}
+
+# Push to Group
+push() {
+    "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
+    -c ${MAINGROUP_ID} -t $BOT_API_KEY
+    tg_sendchanges
 }
 
 # sendcast to group
