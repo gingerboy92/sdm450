@@ -12,6 +12,6 @@ echo " <b>Changelog for Nano build!</b>${NEWLINE}"
 echo " "
 
 printf '%s\n' "$GIT_COMMIT_LOG" | while IFS= read -r line
- do
+do
   echo "- ${line}" 
 done
