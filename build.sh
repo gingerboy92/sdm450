@@ -8,7 +8,7 @@
 # Kernel building script.
 
 sudo chmod -R 777 scripts/fetch-latest-wireguard.sh
-BUILD_DATE= "$(date +%Y-%m-%d-%H%M)"
+BUILD_DATE="$(date +%Y-%m-%d-%H%M)"
 FILE_NAME=Nano_Kernel-rosy-$BUILD_DATE.zip
 
 KERNEL_DIR=`pwd`
