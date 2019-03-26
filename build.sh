@@ -8,8 +8,9 @@
 # Kernel building script.
 
 sudo chmod -R 777 scripts/fetch-latest-wireguard.sh
-BUILD_DATE="$(date +%Y-%m-%d-%H%M)"
+BUILD_DATE="$(date +%Y%M%H-%d%m)"
 FILE_NAME=Nano_Kernel-rosy-$BUILD_DATE.zip
+LINK=https://master.dl.sourceforge.net/project/shreejoy/folderhere/$FILE_NAME
 
 KERNEL_DIR=`pwd`
 function colors {
@@ -42,6 +43,8 @@ function exports {
         PATH=$KERNEL_DIR/Toolchain/bin:$PATH
 	export PATH
 }
+
+
 
 function build_kernel {
 	#better checking defconfig at first
