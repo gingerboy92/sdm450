@@ -1,7 +1,7 @@
 #!/bin/sh
 
 n=0.00
-n=$[ $n + 1 ]
+new=$[ $n + 1 ]
 echo -e n
 sed '2 a n=$n requirements.sh
 
