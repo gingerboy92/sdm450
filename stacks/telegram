@@ -46,6 +46,32 @@ tg_intgifmain() {
     -d chat_id=${MAINGROUP_ID} >> /dev/ -t null
 }
 
+tg_sendchanges() {
+    curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
+    -F text="$(see_change)" \
+    -d chat_id=${MAINGROUP_ID} >> /dev/ -t null
+}
+
+ tg_changelogs() {
+    curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
+    -F text="$(see_change)" \
+    -d chat_id=${BUILDSCAPERER_ID} >> /dev/ -t null
+}
+
+ # Push to Channel
+push() {
+    "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
+    -c ${BUILDSCAPERER_ID} -t $BOT_API_KEY
+    tg_build_sendsticker
+}
+
+ # Push to Group
+push() {
+    "${TELEGRAM}" -f "Nano_Kernel-rosy.zip" \
+    -c ${MAINGROUP_ID} -t $BOT_API_KEY
+}
+
+
 # sendcast to group
 tg_sendinfo() {
     "${TELEGRAM}" -c ${MAINGROUP_ID} -H \
