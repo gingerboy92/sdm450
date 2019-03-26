@@ -8,6 +8,8 @@
 # Kernel building script.
 
 sudo chmod -R 777 scripts/fetch-latest-wireguard.sh
+BUILD_DATE=" $(date +%Y-%m-%d-%H%M)
+FILE_NAME=Nano_Kernel-rosy-$BUILD_DATE.zip
 
 KERNEL_DIR=`pwd`
 function colors {
@@ -77,6 +79,9 @@ function check_img {
 		finerr
 	fi	
 }
+function push {
+        scp $FILE_NAME pshreejoy15@frs.sourceforge.net:/home/frs/p/shreejoy
+	}
 
 function gen_zip {
 	if [ -f $KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb ]
@@ -85,8 +90,7 @@ function gen_zip {
 		mv $KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb anykernel2/Image.gz-dtb
 		mv anykernel2/Image.gz-dtb anykernel2/zImage
 		cd anykernel2
-		rm -rf Nano_Kernel-rosy.zip
-		zip -r9 "Nano_Kernel-rosy.zip" * -x .git README.md zipsigner-3.0.jar Nano_Kernel-rosy.zip
+		zip -r $FILE_NAME * -x .git README.md zipsigner-3.0.jar Nano_Kernel-rosy.zip
 		fin
 		push
 		cd ..
