@@ -3,7 +3,8 @@
       "name":"Nano-Beta-v3.1",
       "ver":"v3.1",
       "url":""
-      "miui_url":""
+      "miui_url":"";
+      "num":"3.1"
    },
    "name":"Nano-Kernel",
    "description":"A battery friendly and performance optimized kernel. Cause your device deserves it!",
