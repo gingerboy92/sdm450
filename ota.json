@@ -1,0 +1,66 @@
+{  
+   "downloads":{  
+      "name":"Nano-Beta-v3.1",
+      "ver":"v3.1",
+      "url":""
+      "miui_url":""
+   },
+   "name":"Nano-Kernel",
+   "description":"A battery friendly and performance optimized kernel. Cause your device deserves it!",
+   "features":[  
+      "Linux kernel version upstreamed to 3.18.137",
+      "Yankactive, ZZMoove governors",
+      "BFQ, SIOPLUS, ZEN schedulers",
+      "Westwood TCP algorithm. It is set as default",
+      "Sound control",
+      "F2FS support",
+      "Adreno Idler",
+      "LCD Notifier",
+      "AiO Hotplug",
+      "KCAL support",
+      "Fast charge"
+   ],
+   "CPU Governors":[  
+      "Yankactive",
+      "ZZMoove"
+   ],
+   "I/O Schedulers":[  
+      "BFQ",
+      "SIOPLUS",
+      "ZEN"
+   ],
+   "changelog":[  
+      {  
+         "added":[  
+            "Version BETA-3.1",
+            "Introduce compatibility for higher GCC",
+            "CRC switch",
+            "Westwood TCP",
+            "Update ZZMoove",
+            "Add faux sound control v3.6"
+         ]
+      },
+      {  
+         "added":[  
+            "Version BETA-3",
+            "Encryption fix [xDoge ROMs]"
+         ]
+      },
+      {  
+         "added":[  
+            "Version BETA-2",
+            "New UI print",
+            "Added SMP hotplug",
+            "Added Zzmove governer",
+            "Added Faux Sound control"
+         ]
+      },
+      {  
+         "added":[  
+            "Version BETA-1 ",
+            "upstream kernel to 3.18.137",
+            "Latest CAF upstream tag merged"
+         ]
+      }
+   ]
+}
