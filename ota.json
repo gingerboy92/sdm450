@@ -1,10 +1,10 @@
 {  
    "downloads":{  
-      "name":"Nano-Beta-v3",
-      "ver":"v3",
-      "url":"",
+      "name":"Nano-Beta-v3.1",
+      "ver":"v3.1",
+      "url":"https://master.dl.sourceforge.net/project/shreejoy/Nano_Kernel-rosy-20193616-2903-BETA.zip",
       "miui_url":"",
-      "num":"3"
+      "num":"3.1"
    },
    "name":"Nano-Kernel",
    "description":"A battery friendly and performance optimized kernel. Cause your device deserves it!",
