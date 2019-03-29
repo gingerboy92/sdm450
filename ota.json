@@ -6,7 +6,7 @@
       "miui_url":"",
       "num":"3.1"
    },
-   "name":"Nano-Kernel",
+   "name":"Nano-Beta",
    "description":"A battery friendly and performance optimized kernel. Cause your device deserves it!",
    "features":[  
       "Linux kernel version upstreamed to 3.18.137",
