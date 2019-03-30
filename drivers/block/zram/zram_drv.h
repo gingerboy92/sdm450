@@ -26,8 +26,12 @@
 /*
  * Pages that compress to size greater than this are stored
  * uncompressed in memory.
+ * 16 is zsmalloc class interval and unsigned long is extra memory
+ * used by zsmalloc to store metadata.
  */
-static const size_t max_zpage_size = PAGE_SIZE / 4 * 3;
+
+static const size_t max_zpage_size = round_down((PAGE_SIZE / 5 * 4), 16)
+					- sizeof(unsigned long);
 
 /*
  * NOTE: max_zpage_size must be less than or equal to:
