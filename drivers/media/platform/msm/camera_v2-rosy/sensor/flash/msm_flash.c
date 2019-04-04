@@ -82,7 +82,9 @@ void msm_torch_brightness_set(struct led_classdev *led_cdev,
 		pr_err("No torch trigger found, can't set brightness\n");
 		return;
 	}
+
 	led_trigger_event(torch_trigger, value);
+
 	if (value == LED_OFF) {
 		led_trigger_event(flash_ctrl_wt->switch_trigger, 0);
 	} else
@@ -744,21 +746,13 @@ static int32_t msm_flash_release(
 static int32_t msm_flash_config(struct msm_flash_ctrl_t *flash_ctrl,
 	void __user *argp)
 {
-	int32_t rc = -EINVAL;
+	int32_t rc = 0;
 	struct msm_flash_cfg_data_t *flash_data =
 		(struct msm_flash_cfg_data_t *) argp;
 
 	mutex_lock(flash_ctrl->flash_mutex);
 
 	CDBG("Enter %s type %d\n", __func__, flash_data->cfg_type);
-
-		if (flash_data->cfg_type == 2 && flag_led > 0) {
-			flag_led--;
-		} else if (flash_data->cfg_type == 3) {
-			flag_led++;
-		} else if (flash_data->cfg_type == 1) {
-			flag_led = 0;
-		}
 
 	switch (flash_data->cfg_type) {
 	case CFG_FLASH_INIT:
@@ -1063,7 +1057,6 @@ static int32_t msm_flash_get_dt_data(struct device_node *of_node,
 	struct msm_flash_ctrl_t *fctrl)
 {
 	int32_t rc = 0;
-	struct device_node *switch_src_node_pmic = NULL;
 
 	CDBG("called\n");
 
@@ -1097,15 +1090,13 @@ static int32_t msm_flash_get_dt_data(struct device_node *of_node,
 	}
 
 	/* Read the flash and torch source info from device tree node */
-	switch_src_node_pmic = of_parse_phandle(of_node, "qcom,switch-source", 0);
-	if (switch_src_node_pmic) {
 	rc = msm_flash_get_pmic_source_info(of_node, fctrl);
 	if (rc < 0) {
 		pr_err("%s:%d msm_flash_get_pmic_source_info failed rc %d\n",
 			__func__, __LINE__, rc);
 		return rc;
-		}
 	}
+
 	/* Read the gpio information from device tree */
 	rc = msm_sensor_driver_get_gpio_data(
 		&(fctrl->power_info.gpio_conf), of_node);
@@ -1187,6 +1178,9 @@ static long msm_flash_subdev_do_ioctl(
 			break;
 		}
 		break;
+	case VIDIOC_MSM_FLASH_CFG:
+		pr_err("invalid cmd 0x%x received\n", cmd);
+		return -EINVAL;
 	default:
 		return msm_flash_subdev_ioctl(sd, cmd, arg);
 	}
