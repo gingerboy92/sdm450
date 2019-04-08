@@ -86,21 +86,21 @@ Description:
 		ones are sent by filesystem mounted with discard option,
 		whenever some data blocks are getting discarded.
 
-What:		/sys/block/zram<id>/zero_pages
+What:		/sys/block/zram<id>/same_pages
 Date:		August 2010
 Contact:	Nitin Gupta <ngupta@vflare.org>
 Description:
-		The zero_pages file is read-only and specifies number of zero
-		filled pages written to this disk. No memory is allocated for
-		such pages.
+		The same_pages file is read-only and specifies number of same
+		element filled pages written to this disk. No memory is allocated
+		for such pages.
 
 What:		/sys/block/zram<id>/orig_data_size
 Date:		August 2010
 Contact:	Nitin Gupta <ngupta@vflare.org>
 Description:
 		The orig_data_size file is read-only and specifies uncompressed
-		size of data stored in this disk. This excludes zero-filled
-		pages (zero_pages) since no memory is allocated for them.
+		size of data stored in this disk. This excludes same-element-filled
+		pages (same_pages) since no memory is allocated for them.
 		Unit: bytes
 
 What:		/sys/block/zram<id>/compr_data_size
