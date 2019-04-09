@@ -409,6 +409,7 @@ static int __cpufreq_stats_create_table(struct cpufreq_policy *policy,
 error_alloc:
 	sysfs_remove_group(&policy->kobj, &stats_attr_group);
 error_out:
+	kfree(stat->time_in_state);
 	kfree(stat);
 	per_cpu(cpufreq_stats_table, cpu) = NULL;
 	return ret;
