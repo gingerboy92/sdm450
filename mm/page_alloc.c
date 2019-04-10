@@ -62,6 +62,7 @@
 #include <linux/hugetlb.h>
 #include <linux/sched/rt.h>
 #include <linux/cpu_input_boost.h>
+//#include <linux/state_notifier.h>
 
 #include <asm/sections.h>
 #include <asm/tlbflush.h>
@@ -2967,7 +2968,8 @@ rebalance:
 	/* Check if we should retry the allocation */
 
 	/* Boost when memory is low so allocation latency doesn't get too bad */
-	cpu_input_boost_kick_max(100);
+	//if (!state_suspended)
+		cpu_input_boost_kick_max(100);
 
 	/* Keep reclaiming pages as long as there is reasonable progress */
 	pages_reclaimed += did_some_progress;

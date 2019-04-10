@@ -20,6 +20,8 @@
 #include <linux/rcupdate.h>
 #include <linux/notifier.h>
 #include <linux/vmpressure.h>
+#include <linux/cpu_input_boost.h>
+//#include <linux/state_notifier.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/process_reclaim.h>
@@ -175,6 +177,9 @@ static void swap_fn(struct work_struct *work)
 		rcu_read_unlock();
 		return;
 	}
+
+	//if (!state_suspended)
+		cpu_input_boost_kick_max(80);
 
 	for (i = 0; i < si; i++)
 		get_task_struct(selected[i].p);
