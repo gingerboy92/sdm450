@@ -32,6 +32,8 @@
 #include <linux/cpu_input_boost.h>
 //#include <linux/devfreq_boost.h>
 
+static int frame_boost_timeout __read_mostly = CONFIG_MDSS_FRAME_BOOST_TIMEOUT;
+module_param(frame_boost_timeout, int, 0644);
 
 /**
  * drm_atomic_state_default_release -
@@ -51,6 +53,16 @@ void drm_atomic_state_default_release(struct drm_atomic_state *state)
 	kfree(state->plane_states);
 }
 EXPORT_SYMBOL(drm_atomic_state_default_release);
+
+static void mdss_kick_frame_boost(int timeout_ms)
+{
+       if (!timeout_ms)
+               return;
+
+       if (timeout_ms < 0 || cpu_input_boost_within_input(timeout_ms)) {
+               cpu_input_boost_kick();
+       }
+}
 
 /**
  * drm_atomic_state_init - init new atomic state
@@ -1519,10 +1531,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
 			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
 		return -EINVAL;
 
-	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY)) {
-		cpu_input_boost_kick();
-		//devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
-	}
+	if (!(arg->flags & DRM_MODE_ATOMIC_TEST_ONLY))
+		mdss_kick_frame_boost(frame_boost_timeout);
 
 	drm_modeset_acquire_init(&ctx, 0);
 
