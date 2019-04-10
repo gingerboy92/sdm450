@@ -786,7 +786,7 @@ static int32_t msm_actuator_move_focus(
 	struct msm_camera_i2c_reg_setting reg_setting;
 
 	CDBG("called, dir %d, num_steps %d\n", dir, num_steps);
-
+	cpu_input_boost_kick_max(300);
 
 	if ((dest_step_pos == a_ctrl->curr_step_pos) ||
 	((dest_step_pos <= a_ctrl->total_steps) &&
@@ -1798,6 +1798,7 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 
 	switch (cdata->cfgtype) {
 	case CFG_ACTUATOR_INIT:
+		cpu_input_boost_kick_max(1000);
 		rc = msm_actuator_init(a_ctrl);
 		if (rc < 0)
 			pr_err("msm_actuator_init failed %d\n", rc);
