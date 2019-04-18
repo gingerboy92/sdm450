@@ -1,3 +1,4 @@
+EXTRA_CFLAGS += -Wno-format
 ccflags-y += -I$(src)			# needed for trace events
 
 obj-y					+= ion/
